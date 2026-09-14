@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && tsx scripts/generate-sitemap.ts && vite build",
+    "sitemap": "tsx scripts/generate-sitemap.ts",
     "lint": "oxlint",
+    "test": "vitest",
     "preview": "vite preview"
   },
   "dependencies": {
