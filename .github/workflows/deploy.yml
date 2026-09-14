@@ -30,6 +30,12 @@ jobs:
       - run: npx tsc -b
       - run: npm test -- --run
       - run: npm run build
+        env:
+          # Public profile URLs, not secrets — set as repository Actions VARIABLES
+          # (Settings -> Secrets and variables -> Actions -> Variables) to make the
+          # Portfolio/LinkedIn links on About/Developer appear on the live site.
+          VITE_PORTFOLIO_URL: ${{ vars.VITE_PORTFOLIO_URL }}
+          VITE_LINKEDIN_URL: ${{ vars.VITE_LINKEDIN_URL }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

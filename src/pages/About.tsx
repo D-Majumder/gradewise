@@ -1,4 +1,7 @@
+import { Card } from '../components/ui/Card'
+import { CreatorLinks } from '../components/CreatorLinks'
 import { Seo } from '../lib/Seo'
+import { CREATOR } from '../lib/creator'
 
 export function About() {
   return (
@@ -19,16 +22,27 @@ export function About() {
             and higher-study eligibility cutoffs.
           </p>
           <p>
-            GradeWise is built as an India-wide academic conversion platform, not merely a CGPA calculator: it
-            aggregates semester and year results with proper credit weighting, converts between CGPA, SGPA, GPA,
-            marks and percentage, supports target-score planning, and — where a university's official conversion
-            rule has been verified — applies that exact formula instead of a generic estimate.
+            GradeWise was built to make academic grade conversion simpler, clearer and more trustworthy for
+            students across India: it aggregates semester and year results with proper credit weighting,
+            converts between CGPA, SGPA, GPA, marks and percentage, supports target-score planning, and — where
+            a university's official conversion rule has been verified — applies that exact formula instead of a
+            generic estimate.
           </p>
           <p>
             See the Methodology page for how formulas are verified and labeled, and the Report page if you'd like
             to contribute a correction or a source for an institution that isn't covered yet.
           </p>
         </div>
+
+        <Card className="mt-8 p-5 sm:p-6">
+          <p className="text-sm text-[var(--text-muted)]">Built by</p>
+          <p className="mt-0.5 text-lg font-semibold text-[var(--text)]">{CREATOR.name}</p>
+          <p className="mt-2 text-sm text-[var(--text-muted)]">
+            GradeWise was created as an independent, student-focused academic utility — not affiliated with any
+            university or institution it lists.
+          </p>
+          <CreatorLinks className="mt-4" />
+        </Card>
       </section>
     </>
   )

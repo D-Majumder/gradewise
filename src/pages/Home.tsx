@@ -41,8 +41,8 @@ export function Home() {
   return (
     <>
       <Seo
-        title="GradeWise — CGPA to Percentage Calculator for Indian Universities"
-        description="Convert CGPA, SGPA, GPA, marks and percentage with institution-specific, source-verified formulas for Indian universities. Aggregate semester and year results, plan target scores, and build custom formulas — free and entirely client-side."
+        title="GradeWise — CGPA, SGPA & Percentage Calculator for Indian Universities"
+        description="GradeWise helps students convert CGPA, SGPA, marks and grades accurately using verified, university-specific academic rules across India."
         path="/"
         jsonLd={{
           '@context': 'https://schema.org',

@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Local env overrides — see .env.example. Not secrets, but kept local so a
+# personal portfolio/LinkedIn URL isn't force-committed by every contributor.
+.env
+.env.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

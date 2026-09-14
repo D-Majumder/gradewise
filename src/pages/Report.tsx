@@ -1,5 +1,6 @@
 import { Card } from '../components/ui/Card'
 import { Seo } from '../lib/Seo'
+import { CREATOR } from '../lib/creator'
 
 export function Report() {
   return (
@@ -24,9 +25,9 @@ export function Report() {
             formula you believe is correct, and a link to the official source.
           </p>
           <a
-            href="https://github.com/D-Majumder/gradewise/issues/new"
+            href={`${CREATOR.repo}/issues/new`}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
             className="mt-2 inline-block text-[var(--accent)] underline decoration-dotted"
           >
             Open a GitHub issue

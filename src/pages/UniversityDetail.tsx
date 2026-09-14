@@ -30,7 +30,7 @@ export function UniversityDetail() {
   return (
     <>
       <Seo
-        title={institution.name}
+        title={`${institution.shortName ?? institution.name} CGPA to Percentage Calculator`}
         description={`${institution.shortName ?? institution.name} (${institution.city}, ${institution.state}) CGPA to percentage conversion — ${
           officialRules.length > 0 ? 'official, source-verified formula' : 'verification status'
         } and programme applicability on GradeWise.`}

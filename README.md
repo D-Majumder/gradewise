@@ -115,4 +115,7 @@ under the repository's Settings → Pages (already configured for this repo).
 
 ## Creator
 
-Built and maintained by [D. Majumder](https://github.com/D-Majumder).
+Built and maintained by [Dhruba Majumder](https://github.com/D-Majumder). Attribution links on the About/
+Developer pages come from a single source of truth (`src/lib/creator.ts`); GitHub is a real, always-shown URL,
+while Portfolio and LinkedIn only render once configured — see `.env.example` for local dev, or set the
+`VITE_PORTFOLIO_URL` / `VITE_LINKEDIN_URL` repository Actions **variables** (not secrets) for the deployed site.
