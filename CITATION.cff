@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: If you use or reference this software, please cite it as below.
+title: GradeWise
+type: software
+abstract: >-
+  GradeWise is an India-wide academic conversion platform that converts CGPA, SGPA, marks and percentage using
+  verified, institution-specific formulas for Indian universities, rather than a single generic multiplier.
+authors:
+  - family-names: Majumder
+    given-names: Dhruba
+repository-code: https://github.com/D-Majumder/gradewise
+url: https://d-majumder.github.io/gradewise/
+license: MIT

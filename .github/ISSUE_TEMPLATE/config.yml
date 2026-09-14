@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability (private)
+    url: https://github.com/D-Majumder/gradewise/security/advisories/new
+    about: Please do not open a public issue for security vulnerabilities — see SECURITY.md.
+  - name: Support / where do I ask this?
+    url: https://github.com/D-Majumder/gradewise/blob/main/SUPPORT.md
+    about: Not sure which template fits, or have a general question? Start here.

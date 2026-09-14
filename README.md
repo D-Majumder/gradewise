@@ -8,6 +8,14 @@ applies that exact formula instead of a generic estimate.
 - **Live site:** https://d-majumder.github.io/gradewise/
 - **Repository:** https://github.com/D-Majumder/gradewise
 
+[![CI](https://github.com/D-Majumder/gradewise/actions/workflows/ci.yml/badge.svg)](https://github.com/D-Majumder/gradewise/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/D-Majumder/gradewise/actions/workflows/deploy.yml/badge.svg)](https://github.com/D-Majumder/gradewise/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](./CODE_OF_CONDUCT.md)
+
+**Project governance:** [License](./LICENSE) · [Contributing](./CONTRIBUTING.md) ·
+[Code of Conduct](./CODE_OF_CONDUCT.md) · [Security Policy](./SECURITY.md) · [Support](./SUPPORT.md)
+
 ## Why
 
 Most "CGPA to percentage" tools apply one multiplier to every student. Indian universities actually use
@@ -51,7 +59,7 @@ CGPA→%, %→CGPA, marks→%, %→marks, semester SGPA→CGPA (credit-weighted 
 CGPA, required-SGPA-for-target-CGPA, required-marks-for-target-%, required-CGPA-for-target-%, and arbitrary
 custom formulas over user-defined variables.
 
-## University data philosophy
+## Academic data provenance
 
 Every `ConversionRule` in `src/data/institutions.ts` carries a `status` (`official` / `unverified` / `custom`):
 
@@ -65,6 +73,17 @@ Every `ConversionRule` in `src/data/institutions.ts` carries a `status` (`offici
 
 This is enforced, not just documented: `src/data/__tests__/institutions.test.ts` fails CI if an `official` rule
 lacks a real `https://` source URL, or an `unverified` rule lacks explanatory notes.
+
+### Reporting formula errors
+
+Spotted a formula that's wrong, outdated, or missing a caveat? Please don't silently work around it — open a
+[formula correction issue](https://github.com/D-Majumder/gradewise/issues/new?template=formula_correction.md)
+(or the in-app [/report](https://d-majumder.github.io/gradewise/report) page, which links to the same place).
+Corrections backed by an official source are the fastest to act on; see
+[CONTRIBUTING.md](./CONTRIBUTING.md#academic-formula--university-data-contributions) for exactly what to
+include. If your institution isn't listed at all, use the
+[university request template](https://github.com/D-Majumder/gradewise/issues/new?template=university_request.md)
+instead.
 
 ## Local setup
 
@@ -112,6 +131,47 @@ under the repository's Settings → Pages (already configured for this repo).
    you found and why it isn't confirmed.
 4. Run `npm test` to confirm it passes the provenance checks, then open a PR — see
    [/report](https://d-majumder.github.io/gradewise/report) for the same process without a local setup.
+
+The two steps above are a quick reference — the full contribution process (branch naming, commit/PR
+expectations, coding standards, accessibility, and the complete academic-data-sourcing requirements) is in
+[CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Contributing
+
+Contributions are welcome — code, documentation, and especially source-verified university formula corrections.
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request; for anything beyond a small,
+obviously-correct fix, open an issue first to discuss the approach. Participation is governed by the
+[Code of Conduct](./CODE_OF_CONDUCT.md).
+
+## License
+
+The GradeWise application source code is licensed under the [MIT License](./LICENSE) —
+Copyright © 2026 Dhruba Majumder.
+
+That license covers this repository's own code and original written content. It does **not** extend to the
+academic grading regulations, formulas, or institutional names/trademarks referenced in the university data —
+those remain the property of, and are governed by the policies of, their respective institutions. See the
+"Scope of this license" note at the bottom of [LICENSE](./LICENSE) for the full explanation.
+
+## Security
+
+GradeWise is static and entirely client-side, which limits (but doesn't eliminate) its security surface — see
+[SECURITY.md](./SECURITY.md) for what's in scope and how to privately report a vulnerability via GitHub's
+security advisories (please don't open a public issue for one).
+
+## Code of Conduct
+
+This project follows the [Contributor Covenant Code of Conduct](./CODE_OF_CONDUCT.md). By participating, you're
+expected to uphold it.
+
+## Support
+
+Need help, have a question, or aren't sure where a report belongs? See [SUPPORT.md](./SUPPORT.md) — this is a
+solo-maintained project with no dedicated support team, but it explains the best channel for each kind of ask.
+
+## Citing GradeWise
+
+If you'd like to cite this project (e.g. in a report or thesis referencing it), see [CITATION.cff](./CITATION.cff).
 
 ## Creator
 

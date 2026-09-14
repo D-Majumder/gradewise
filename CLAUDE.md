@@ -70,6 +70,15 @@ flagged correction on the commonly-miscited "CGPA x 9.5" AICTE/UGC claim — the
 solving, theme modes, mobile layout) was run against the dev build and found no blocking bugs — see the git log
 for the exact list of what was checked.
 
+Open-source governance files are in place: `LICENSE` (MIT, scoped explicitly to app code — see its "Scope of
+this license" section for why university data/trademarks are excluded), `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`
+(Contributor Covenant 2.1), `SECURITY.md` (private vulnerability reporting is enabled on the GitHub repo —
+Settings → Security → Private vulnerability reporting), `SUPPORT.md`, `CITATION.cff`, and
+`.github/ISSUE_TEMPLATE/` (bug report, formula correction, university request, feature request) plus
+`.github/pull_request_template.md`. **Commit attribution rule for this repo (and the user's repos generally):
+never add a `Co-Authored-By: Claude ...` trailer or any AI attribution line to commits/PRs** — see the saved
+memory `git-commit-attribution-no-ai-trailer.md`. All commits must be authored as D-Majumder only.
+
 Not yet done (pick up here):
 - **University coverage is intentionally small.** Expand it institution-by-institution, always fetching and
   reading a primary document before adding an `official` rule — never transcribe a secondary/calculator-site
