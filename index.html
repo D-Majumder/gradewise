@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <title>GradeWise — CGPA to Percentage Calculator for Indian Universities</title>
+    <meta
+      name="description"
+      content="GradeWise converts CGPA, SGPA, GPA, marks and percentage using verified, institution-specific formulas for Indian universities including MAKAUT, VTU, Anna University, IITs, NITs and more. Free, accurate, and entirely client-side."
+    />
+    <meta name="theme-color" content="#4f46e5" />
+    <link rel="canonical" href="https://d-majumder.github.io/gradewise/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="GradeWise" />
+    <meta property="og:title" content="GradeWise — CGPA to Percentage Calculator for Indian Universities" />
+    <meta
+      property="og:description"
+      content="Convert CGPA, SGPA, GPA and marks to percentage with institution-specific, source-verified formulas. Your grades. Your university. Your percentage."
+    />
+    <meta property="og:url" content="https://d-majumder.github.io/gradewise/" />
+    <meta property="og:image" content="https://d-majumder.github.io/gradewise/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GradeWise — CGPA to Percentage Calculator" />
+    <meta name="twitter:description" content="Your grades. Your university. Your percentage." />
+    <meta name="twitter:image" content="https://d-majumder.github.io/gradewise/og-image.png" />
+
+    <script>
+      // Applied before first paint to avoid a light/dark flash-of-incorrect-theme.
+      ;(function () {
+        try {
+          var pref = localStorage.getItem('gradewise-theme')
+          if (pref === 'light' || pref === 'dark') {
+            document.documentElement.setAttribute('data-theme', pref)
+          }
+        } catch (e) {}
+      })()
+    </script>
+    <script>
+      // GitHub Pages SPA deep-link support: decodes a path that 404.html
+      // redirected here as a query string, restoring the original URL via history.
+      ;(function () {
+        var redirect = sessionStorage.getItem('gw-redirect')
+        if (redirect) {
+          sessionStorage.removeItem('gw-redirect')
+          if (redirect !== location.pathname + location.search + location.hash) {
+            history.replaceState(null, '', redirect)
+          }
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

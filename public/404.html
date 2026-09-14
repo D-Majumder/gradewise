@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GradeWise</title>
+    <script>
+      // GitHub Pages has no server-side routing, so a direct hit on a deep link
+      // (e.g. /gradewise/universities/makaut) serves this 404 page instead. We
+      // stash the intended path and bounce to the real app, which restores it
+      // via history.replaceState (see the matching script in index.html).
+      sessionStorage.setItem('gw-redirect', location.pathname + location.search + location.hash)
+      location.replace('/gradewise/')
+    </script>
+  </head>
+  <body>
+    Redirecting to GradeWise…
+  </body>
+</html>

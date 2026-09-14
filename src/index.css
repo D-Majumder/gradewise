@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+:root {
+  --bg: #fafafa;
+  --bg-subtle: #f2f2f3;
+  --surface: #ffffff;
+  --surface-hover: #f7f7f8;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --text: #18181b;
+  --text-muted: #52525b;
+  --text-faint: #a1a1aa;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-text: #ffffff;
+  --accent-soft: #eef2ff;
+  --success: #16a34a;
+  --success-soft: #f0fdf4;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --danger: #dc2626;
+  --danger-soft: #fef2f2;
+  --focus-ring: #6366f1;
+  --shadow-color: 220 3% 15%;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0b0b0d;
+  --bg-subtle: #131316;
+  --surface: #18181b;
+  --surface-hover: #202024;
+  --border: #2c2c31;
+  --border-strong: #3a3a41;
+  --text: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-faint: #6b6b73;
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-text: #0b0b0d;
+  --accent-soft: #1e1b3a;
+  --success: #4ade80;
+  --success-soft: #0f2416;
+  --warning: #fbbf24;
+  --warning-soft: #2b2008;
+  --danger: #f87171;
+  --danger-soft: #2b1212;
+  --focus-ring: #818cf8;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    --bg: #0b0b0d;
+    --bg-subtle: #131316;
+    --surface: #18181b;
+    --surface-hover: #202024;
+    --border: #2c2c31;
+    --border-strong: #3a3a41;
+    --text: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --text-faint: #6b6b73;
+    --accent: #818cf8;
+    --accent-hover: #a5b4fc;
+    --accent-text: #0b0b0d;
+    --accent-soft: #1e1b3a;
+    --success: #4ade80;
+    --success-soft: #0f2416;
+    --warning: #fbbf24;
+    --warning-soft: #2b2008;
+    --danger: #f87171;
+    --danger-soft: #2b1212;
+    --focus-ring: #818cf8;
+    color-scheme: dark;
+  }
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Odometer / rolling-number digit animation */
+@keyframes gw-digit-blur {
+  0% {
+    filter: blur(0);
+  }
+  50% {
+    filter: blur(1.5px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
+.gw-tabular {
+  font-variant-numeric: tabular-nums;
+}
