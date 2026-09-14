@@ -80,11 +80,15 @@ function tokenize(input: string): Token[] {
 /** Recursive-descent parser: expr -> term (('+'|'-') term)* ; term -> factor (('*'|'/') factor)* ; factor -> power ; power -> unary ('^' unary)* */
 class Parser {
   private pos = 0
-  constructor(
-    private tokens: Token[],
-    private variables: Record<string, number>,
-    private allowedNames: Set<string>,
-  ) {}
+  private tokens: Token[]
+  private variables: Record<string, number>
+  private allowedNames: Set<string>
+
+  constructor(tokens: Token[], variables: Record<string, number>, allowedNames: Set<string>) {
+    this.tokens = tokens
+    this.variables = variables
+    this.allowedNames = allowedNames
+  }
 
   private peek(): Token {
     return this.tokens[this.pos]
