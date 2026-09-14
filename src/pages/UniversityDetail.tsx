@@ -11,12 +11,31 @@ export function UniversityDetail() {
 
   if (!institution) return <Navigate to="/universities" replace />
 
+  const officialRules = institution.rules.filter((r) => r.status === 'official')
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollegeOrUniversity',
+    name: institution.name,
+    alternateName: institution.aliases.length > 0 ? institution.aliases : institution.shortName,
+    url: institution.website,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: institution.city,
+      addressRegion: institution.state,
+      addressCountry: 'IN',
+    },
+  }
+
   return (
     <>
       <Seo
         title={institution.name}
-        description={`CGPA to percentage conversion formulas for ${institution.name}, with sources and verification status.`}
+        description={`${institution.shortName ?? institution.name} (${institution.city}, ${institution.state}) CGPA to percentage conversion — ${
+          officialRules.length > 0 ? 'official, source-verified formula' : 'verification status'
+        } and programme applicability on GradeWise.`}
         path={`/universities/${institution.id}`}
+        jsonLd={jsonLd}
       />
 
       <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
@@ -27,13 +46,34 @@ export function UniversityDetail() {
         <h1 className="mt-3 text-2xl font-bold text-[var(--text)] sm:text-3xl">{institution.name}</h1>
         <p className="mt-1 text-[var(--text-muted)]">
           {institution.city}, {institution.state} · {institution.type}
+          {institution.aliases.length > 0 && ` · also known as ${institution.aliases.join(', ')}`}
         </p>
+
+        <p className="mt-4 text-sm text-[var(--text-muted)]">
+          {institution.shortName ?? institution.name} offers {institution.programmes.join(', ')}, graded on a{' '}
+          {institution.gradingScaleDescription}.{' '}
+          {institution.website && (
+            <>
+              Official website:{' '}
+              <a href={institution.website} target="_blank" rel="noreferrer" className="text-[var(--accent)] underline decoration-dotted">
+                {institution.website.replace(/^https?:\/\//, '')}
+              </a>
+              .
+            </>
+          )}
+        </p>
+
         {institution.notes && <p className="mt-3 text-sm text-[var(--text-muted)]">{institution.notes}</p>}
 
         <div className="mt-8 flex flex-col gap-4">
           {institution.rules.length === 0 && (
             <Card className="p-6 text-sm text-[var(--text-muted)]">
-              No conversion formula has been verified for this institution yet.
+              No conversion formula has been verified for this institution yet — see the note above for what was
+              checked. Use the{' '}
+              <Link to="/" className="text-[var(--accent)] underline decoration-dotted">
+                Custom formula calculator
+              </Link>{' '}
+              if you already have your official rule from another source.
             </Card>
           )}
           {institution.rules.map((rule) => (
@@ -61,6 +101,12 @@ export function UniversityDetail() {
                 </p>
               )}
               {rule.notes && <p className="mt-2 text-xs text-[var(--text-muted)]">{rule.notes}</p>}
+              <Link
+                to={`/?rule=${institution.id}::${rule.id}`}
+                className="mt-3 inline-block text-sm font-medium text-[var(--accent)] underline decoration-dotted"
+              >
+                Use this formula in the calculator →
+              </Link>
             </Card>
           ))}
         </div>

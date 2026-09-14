@@ -43,6 +43,16 @@ export function Methodology() {
             </p>
           </Card>
           <Card className="p-5">
+            <h2 className="font-semibold text-[var(--text)]">Custom formulas</h2>
+            <p className="mt-1.5 text-sm text-[var(--text-muted)]">
+              The Custom formula tab lets you type in any linear or non-linear expression yourself — useful when
+              you have your own institution's exact rule from an official source but it isn't in our registry
+              yet. These are evaluated with a safe, sandboxed parser (never <code>eval()</code>), are always
+              labeled "Custom formula", and are never treated as verified by GradeWise since GradeWise did not
+              source or check them itself.
+            </p>
+          </Card>
+          <Card className="p-5">
             <h2 className="font-semibold text-[var(--text)]">No fabrication</h2>
             <p className="mt-1.5 text-sm text-[var(--text-muted)]">
               We never invent a coefficient to fill a gap in coverage. An institution with no verified formula

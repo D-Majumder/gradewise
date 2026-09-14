@@ -15,6 +15,16 @@ export function Universities() {
         title="Universities & Institutions"
         description="Search Indian universities, IITs, NITs and colleges for source-verified CGPA-to-percentage conversion formulas on GradeWise."
         path="/universities"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          itemListElement: institutions.map((inst, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            url: `https://d-majumder.github.io/gradewise/universities/${inst.id}`,
+            name: inst.name,
+          })),
+        }}
       />
 
       <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
@@ -54,8 +64,19 @@ export function Universities() {
           {results.map((inst) => (
             <Link key={inst.id} to={`/universities/${inst.id}`}>
               <Card className="p-4 transition-colors hover:border-[var(--accent)] sm:p-5">
-                <p className="font-semibold text-[var(--text)]">{inst.name}</p>
-                <p className="text-sm text-[var(--text-muted)]">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="font-semibold text-[var(--text)]">{inst.name}</p>
+                  <span
+                    className={
+                      inst.hasOfficialConversion
+                        ? 'rounded-full bg-[var(--success-soft)] px-2 py-0.5 text-xs font-semibold text-[var(--success)]'
+                        : 'rounded-full bg-[var(--warning-soft)] px-2 py-0.5 text-xs font-semibold text-[var(--warning)]'
+                    }
+                  >
+                    {inst.hasOfficialConversion ? 'Official formula available' : 'No official formula yet'}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-[var(--text-muted)]">
                   {inst.city}, {inst.state} · {inst.type}
                 </p>
               </Card>

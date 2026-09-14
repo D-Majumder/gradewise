@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { Card } from './ui/Card'
+import { Button } from './ui/Button'
 import { cn } from '../lib/cn'
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber'
 import { formatNumber } from '../engine/round'
@@ -28,8 +30,36 @@ export interface ResultCardProps {
   children?: ReactNode
 }
 
+function buildShareText(label: string, value: number, unit: string, decimals: number, formulaDisplay?: string): string {
+  const line1 = `${label}: ${formatNumber(value, decimals)}${unit ? ` ${unit}` : ''}`
+  const line2 = formulaDisplay ? `\nFormula: ${formulaDisplay}` : ''
+  return `${line1}${line2}\n\nCalculated with GradeWise — https://d-majumder.github.io/gradewise/`
+}
+
 export function ResultCard({ label, value, unit, decimals = 2, status, source, formulaDisplay, children }: ResultCardProps) {
   const animated = useAnimatedNumber(value)
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'error'>('idle')
+
+  const shareText = buildShareText(label, value, unit, decimals, formulaDisplay)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareText)
+      setCopyState('copied')
+    } catch {
+      setCopyState('error')
+    }
+    setTimeout(() => setCopyState('idle'), 2000)
+  }
+
+  const canShare = typeof navigator !== 'undefined' && 'share' in navigator
+  const handleShare = async () => {
+    try {
+      await navigator.share({ title: 'GradeWise result', text: shareText })
+    } catch {
+      // user cancelled the share sheet, or share failed — no action needed
+    }
+  }
 
   return (
     <Card className="p-6 sm:p-8" aria-live="polite">
@@ -71,6 +101,20 @@ export function ResultCard({ label, value, unit, decimals = 2, status, source, f
           This formula could not be verified against an official document. Please cross-check with your institution before relying on it.
         </p>
       )}
+
+      <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
+        <Button type="button" variant="secondary" size="sm" onClick={handleCopy}>
+          {copyState === 'copied' ? 'Copied ✓' : copyState === 'error' ? 'Could not copy' : 'Copy result'}
+        </Button>
+        {canShare && (
+          <Button type="button" variant="secondary" size="sm" onClick={handleShare}>
+            Share
+          </Button>
+        )}
+        <span role="status" aria-live="polite" className="sr-only">
+          {copyState === 'copied' ? 'Result copied to clipboard' : ''}
+        </span>
+      </div>
 
       {children && <div className="mt-4 border-t border-[var(--border)] pt-4">{children}</div>}
     </Card>

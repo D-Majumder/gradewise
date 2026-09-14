@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { Button } from '../../components/ui/Button'
 import { Field } from '../../components/ui/Field'
 import { ResultCard } from '../../components/ResultCard'
@@ -17,8 +18,13 @@ function newVariable(name = ''): Variable {
   return { id: `var-${varCounter}`, name, valueRaw: '' }
 }
 
-export function CustomFormulaTab() {
-  const [expression, setExpression] = useState('(CGPA - 0.75) * 10')
+export interface CustomFormulaTabProps {
+  initialExpression?: string
+  banner?: ReactNode
+}
+
+export function CustomFormulaTab({ initialExpression, banner }: CustomFormulaTabProps) {
+  const [expression, setExpression] = useState(initialExpression ?? '(CGPA - 0.75) * 10')
   const [variables, setVariables] = useState<Variable[]>([newVariable('CGPA')])
   const [result, setResult] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -50,6 +56,7 @@ export function CustomFormulaTab() {
 
   return (
     <div className="flex flex-col gap-6">
+      {banner}
       <p className="text-sm text-[var(--text-muted)]">
         Build your own conversion formula using named variables — for example if your institution's exact rule
         isn't listed yet on the Universities page but you have it from an official source. Supports +, -, *, /, ^,
