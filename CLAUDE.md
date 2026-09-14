@@ -49,14 +49,26 @@ client-side, no backend, deployed to GitHub Pages (base path `/gradewise/`) via 
 
 ## Status as of this session
 
-Done: calculation engine (full, tested), theme system, SEO helper, routing shell, all four calculator tabs
-wired end-to-end, university search/detail pages, About/Methodology/Developer/Report/Privacy pages, rolling
-number result animation, responsive/accessible layout, CI (`ci.yml`) and Pages deployment (`deploy.yml`)
-workflows, auto-generated sitemap, and a seed set of source-verified institutions: University of Delhi (UG+PG
-CBCS), Jadavpur University (AICTE Engineering/Technology only), VTU, MAKAUT, IIT Roorkee, IIT Tirupati — plus
-Anna University / University of Calcutta / University of Mumbai listed with their formulas explicitly
-unverified or absent (see `/methodology` for the flagged correction on the commonly-miscited "CGPA x 9.5"
-AICTE/UGC claim — the real AICTE table is `(CGPA - 0.75) x 10`).
+**Live and deployed.** Repository: https://github.com/D-Majumder/gradewise (public). Live site:
+https://d-majumder.github.io/gradewise/, deployed via `deploy.yml` on every push to `main`, Pages configured
+with build type "workflow". Both `ci.yml` and `deploy.yml` have a confirmed green run against the current
+`main`. Deep-link SPA routing (e.g. a fresh hit on `/universities/jadavpur-university`) was verified live, not
+just locally.
+
+Done: calculation engine (full, tested), theme system, SEO helper (JSON-LD on Home/Universities/university
+detail pages), routing shell, all four calculator tabs wired end-to-end, university search/detail pages with a
+working "use this formula in the calculator" deep-link that pre-fills the Custom formula tab, Copy/Share on
+results, About/Methodology/Developer/Report/Privacy pages, rolling number result animation, responsive/
+accessible layout (verified down to 360px via same-origin iframe harnesses — real window resize does not
+propagate to the layout viewport in this environment, so use that trick again if you need to re-check), CI and
+Pages deployment workflows (both green), auto-generated sitemap, a real `og-image.png`, and a seed set of
+source-verified institutions: University of Delhi (UG+PG CBCS), Jadavpur University (AICTE Engineering/
+Technology only), VTU, MAKAUT, IIT Roorkee, IIT Tirupati — plus Anna University / University of Calcutta /
+University of Mumbai listed with their formulas explicitly unverified or absent (see `/methodology` for the
+flagged correction on the commonly-miscited "CGPA x 9.5" AICTE/UGC claim — the real AICTE table is
+`(CGPA - 0.75) x 10`). A full functional QA pass (every validation error path, aggregation fallback, target
+solving, theme modes, mobile layout) was run against the dev build and found no blocking bugs — see the git log
+for the exact list of what was checked.
 
 Not yet done (pick up here):
 - **University coverage is intentionally small.** Expand it institution-by-institution, always fetching and
@@ -67,12 +79,9 @@ Not yet done (pick up here):
 - **Grade-letter ↔ grade-point tables** (`gradeToPoint`/`pointToGrade` in `convert.ts`) exist in the engine but
   have no UI yet — most Indian universities use different O/A+/A/B+/... tables, so this needs to be
   institution-scoped data, not a single hardcoded table.
-- No component/UI tests yet (only the engine and data-provenance layers are tested). If adding React Testing
-  Library tests, `@testing-library/react` and `jsdom` are already devDependencies and `src/test/setup.ts` is
-  wired into `vite.config.ts`.
-- No `og-image.png` exists yet at the path referenced by `index.html`'s Open Graph tags — add one under
-  `public/` (1200×630) or remove the tag.
-- Repository has no GitHub remote configured yet in this environment — `deploy.yml` won't run until this repo
-  is pushed to `github.com/D-Majumder/gradewise` (or the repo name / `base` in `vite.config.ts` and the
-  `SITE_URL` constants in `src/lib/Seo.tsx` and `scripts/generate-sitemap.ts` are updated to match wherever it
-  actually gets hosted) and Pages is enabled with the "GitHub Actions" source.
+- No component/UI tests yet (only the engine and data-provenance layers are automated; the calculator UI has
+  been QA'd manually in a browser but has no React Testing Library coverage). `@testing-library/react` and
+  `jsdom` are already devDependencies and `src/test/setup.ts` is wired into `vite.config.ts`.
+- No automated Lighthouse/axe accessibility audit has been run — accessibility so far is from manual review
+  (labeled inputs, skip link, `aria-live` results, focus-visible styles) and a live keyboard/screen-reader pass
+  has not been done.

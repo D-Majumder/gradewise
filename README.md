@@ -5,38 +5,114 @@ CGPA, SGPA, GPA, marks and percentage; aggregates semester and year results with
 target scores; and, where a university's own conversion rule has been verified against an official document,
 applies that exact formula instead of a generic estimate.
 
-**[Live site](https://d-majumder.github.io/gradewise/)**
+- **Live site:** https://d-majumder.github.io/gradewise/
+- **Repository:** https://github.com/D-Majumder/gradewise
 
 ## Why
 
 Most "CGPA to percentage" tools apply one multiplier to every student. Indian universities actually use
 genuinely different, officially defined formulas — the gap between a generic guess and a student's real,
 institution-mandated percentage can matter for admissions and eligibility cutoffs. GradeWise prioritizes
-**accuracy and honest sourcing over maximum coverage**: see [/methodology](https://d-majumder.github.io/gradewise/methodology)
-for how formulas are verified and labeled (official / unverified), and `src/data/institutions.ts` for the
-provenance rule enforced on every entry.
+**accuracy and honest sourcing over maximum coverage**. See [/methodology](https://d-majumder.github.io/gradewise/methodology)
+for the verification standard, and the "University data philosophy" section below.
 
-## Stack
+## Features
 
-React 19 + TypeScript + Vite + Tailwind CSS v4 + react-router-dom, entirely client-side (no backend, no
-tracking). Deployed as a static site to GitHub Pages via GitHub Actions.
+- **Convert** — CGPA/SGPA ⇄ percentage (generic, scale-and-multiplier model) and marks ⇄ percentage
+- **SGPA / CGPA** — semester-wise and year-wise aggregation, credit-weighted with automatic fallback to a
+  simple average (and an explicit note whenever that fallback happens), plus guidance on handling backlog,
+  repeat and grade-improvement subjects
+- **Target** — required SGPA to hit a target CGPA, required marks to hit a target percentage, required CGPA to
+  hit a target percentage under a given linear rule
+- **Custom formula** — a safe, sandboxed (no `eval()`) expression evaluator for any linear or non-linear
+  formula, for when you have your own institution's exact rule but it isn't in the registry yet
+- **Universities** — searchable registry of institutions with source-verified conversion formulas; each
+  university page links straight back into the Custom formula calculator pre-filled with its exact rule
+- Rolling-number result animation (respects `prefers-reduced-motion`), Copy result / Share, light/dark/system
+  theme, fully responsive down to ~360px, accessible (skip link, labeled form controls, `aria-live` results)
 
-## Development
+## Architecture
 
-```bash
-npm install
-npm run dev      # start dev server
-npm test         # run vitest
-npm run lint     # oxlint
-npm run build    # typecheck + generate sitemap + production build
+```
+src/engine/        pure calculation engine — zero React deps, fully unit-tested
+src/data/          institution/rule registry + provenance tests
+src/pages/         one file per route; the calculator's 4 tabs live under src/pages/home/
+src/components/    ResultCard, ThemeToggle, layout, ui primitives
+scripts/           sitemap generation from the institution registry
+.github/workflows/ CI (lint+typecheck+test+build) and GitHub Pages deploy
 ```
 
-The calculation engine (`src/engine/`) has zero React/UI dependencies and is unit-tested in isolation. Adding
-or editing an institution's conversion formula in `src/data/institutions.ts` is covered by
-`src/data/__tests__/institutions.test.ts`, which enforces that every `official` rule cites a real source URL and
-every `unverified` rule explains why.
+Stack: React 19 + TypeScript + Vite 8 + Tailwind CSS v4 + react-router-dom v7 + react-helmet-async. Entirely
+client-side — no backend, no analytics, no tracking. See `CLAUDE.md` for a deeper architecture/conventions guide.
 
-## Contributing a formula correction
+## Supported calculation modes
 
-Reports backed by an official source (university circular, ordinance, or grading regulations document) are the
-fastest to act on — see [/report](https://d-majumder.github.io/gradewise/report) or open a GitHub issue directly.
+CGPA→%, %→CGPA, marks→%, %→marks, semester SGPA→CGPA (credit-weighted or simple average), year-wise CGPA→overall
+CGPA, required-SGPA-for-target-CGPA, required-marks-for-target-%, required-CGPA-for-target-%, and arbitrary
+custom formulas over user-defined variables.
+
+## University data philosophy
+
+Every `ConversionRule` in `src/data/institutions.ts` carries a `status` (`official` / `unverified` / `custom`):
+
+- **`official`** — the formula was confirmed by fetching and reading a primary document (a university
+  ordinance, examination circular, or an AICTE/UGC circular), and the rule carries a real, checkable source URL
+  and the date it was verified.
+- **`unverified`** — a formula that is commonly cited elsewhere but could not be confirmed against a primary
+  document is still listed, explicitly labeled unverified, with notes on what was found.
+- An institution with **no** confirmed formula is still listed (so it's searchable) with an empty `rules` array
+  and a note explaining what was checked — never a guessed coefficient.
+
+This is enforced, not just documented: `src/data/__tests__/institutions.test.ts` fails CI if an `official` rule
+lacks a real `https://` source URL, or an `unverified` rule lacks explanatory notes.
+
+## Local setup
+
+```bash
+git clone https://github.com/D-Majumder/gradewise.git
+cd gradewise
+npm install
+npm run dev
+```
+
+## Testing
+
+```bash
+npm test          # vitest — engine + data-provenance tests
+npm run lint       # oxlint
+npx tsc -b         # typecheck (catches things vitest's esbuild transform won't)
+npm run build      # typecheck + sitemap + production build
+```
+
+## Deployment
+
+Push to `main` triggers `.github/workflows/deploy.yml`: install → lint → typecheck → test → build → publish
+`dist/` to GitHub Pages via `actions/deploy-pages`. `.github/workflows/ci.yml` runs the same checks (without
+deploying) on every push and pull request.
+
+To point this repo at a different GitHub Pages URL: update `base` in `vite.config.ts`, `SITE_URL` in
+`src/lib/Seo.tsx`, `SITE_URL` in `scripts/generate-sitemap.ts`, and the hardcoded canonical/OG URLs in
+`index.html`, then re-run `npm run build`. GitHub Pages itself needs "Build and deployment: GitHub Actions" set
+under the repository's Settings → Pages (already configured for this repo).
+
+## How to add an institution
+
+1. Add an entry to the `institutions` array in `src/data/institutions.ts` with `rules: []` and a `notes` field
+   explaining what you checked and why no formula is confirmed yet.
+2. Run `npm test` — `institutions.test.ts` will validate the shape.
+
+## How to add a verified formula
+
+1. Find the university's own ordinance, examination circular, grading regulations document, or an AICTE/UGC
+   circular that states the formula directly — a secondary site repeating it is not sufficient for `official`.
+2. Add a `ConversionRule` to that institution's `rules` array with `status: 'official'`, `formulaType: 'linear'`,
+   the `a`/`b` coefficients, and a `source` with the real document title, a working URL, and today's date as
+   `verifiedAt`.
+3. If you only have a secondary source, add it with `status: 'unverified'` instead, and explain in `notes` what
+   you found and why it isn't confirmed.
+4. Run `npm test` to confirm it passes the provenance checks, then open a PR — see
+   [/report](https://d-majumder.github.io/gradewise/report) for the same process without a local setup.
+
+## Creator
+
+Built and maintained by [D. Majumder](https://github.com/D-Majumder).
