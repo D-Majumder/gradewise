@@ -145,13 +145,23 @@ obviously-correct fix, open an issue first to discuss the approach. Participatio
 
 ## License
 
-The GradeWise application source code is licensed under the [MIT License](./LICENSE) —
-Copyright © 2026 Dhruba Majumder.
+The GradeWise **application source code** — the TypeScript/React/CSS, build tooling, tests, and original
+written content in this repository — is licensed under the [MIT License](./LICENSE), Copyright © 2026 Dhruba
+Majumder.
 
-That license covers this repository's own code and original written content. It does **not** extend to the
-academic grading regulations, formulas, or institutional names/trademarks referenced in the university data —
-those remain the property of, and are governed by the policies of, their respective institutions. See the
-"Scope of this license" note at the bottom of [LICENSE](./LICENSE) for the full explanation.
+That license does **not** extend to:
+
+- The academic grading regulations, ordinances, circulars, or conversion formulas of any university or
+  examining body referenced in `src/data/institutions.ts` or on the site's university pages. Those remain the
+  intellectual property of, and are governed by the policies of, their respective issuing institutions (e.g.
+  University of Delhi, Jadavpur University, VTU, MAKAUT, AICTE, and others). GradeWise reproduces only the
+  numeric conversion rule itself, with a citation back to the original source, for informational/educational
+  purposes.
+- Any university, institute, or examining body's name, abbreviation, seal, logo, or other trademark. Their
+  appearance in this project is purely nominative/referential (to identify which institution a formula belongs
+  to) and does not imply endorsement, affiliation, or sponsorship by that institution.
+- Third-party content pulled in via dependencies (see `package.json`), which remain under their own respective
+  licenses.
 
 ## Security
 
